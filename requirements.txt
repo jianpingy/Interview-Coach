@@ -2,5 +2,4 @@ ibm_watsonx_ai==1.1.26
 gTTS==2.5.4
 faster-whisper==1.2.1
 PyPDF2==3.0.1
-gradio==5.49.1
-pandas==2.3.3
+gradio==4.44.0
