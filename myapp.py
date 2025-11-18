@@ -16,6 +16,9 @@ interview_step = 0
 resume_summary = None
 job_summary = None
 
+with open('example-job-description.txt', 'r') as file:
+    example_job_description = file.read()
+
 project_id="skills-network"
 
 credentials = Credentials(
@@ -245,7 +248,10 @@ def next_question(resume_path, job_str, total_number, question_previous="", answ
     else:
         Question_next = Interviewer(resume_summary, job_summary, action=None, last=True)
     
-    if interview_step >= total_number:
+    question_audio_path = text_to_speech_file(Question_next)
+    interview_step += 1
+
+    if interview_step > total_number:
         evaluation = Evaluator(str(chat_histories), job_summary)
         chat_histories = {}
         interview_step = 0
@@ -254,9 +260,6 @@ def next_question(resume_path, job_str, total_number, question_previous="", answ
     else:
         evaluation = "Evaluation Ongoing ......"
     
-    question_audio_path = text_to_speech_file(Question_next)
-    interview_step += 1
-
     return gr.update(value=question_audio_path), gr.update(value=None), gr.update(value="Submit!"), gr.update(value=evaluation)
 
 # gradio ui
@@ -284,6 +287,14 @@ with gr.Blocks() as demo:
         fn=next_question,
         inputs=[resume_input, job_desc_input, num_q_input, interviewer_question, user_answer],
         outputs=[interviewer_question, user_answer, start_btn, evaluation_textbox]
+    )
+
+    gr.Markdown("## Use the following example resume and job description for a quick start!")
+    examples = gr.Examples(
+        examples=[
+            ['example-resume.pdf', example_job_description]
+        ],
+        inputs=[resume_input,job_desc_input],
     )
 
 # --------------------------------------------------
