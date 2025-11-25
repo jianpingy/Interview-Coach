@@ -281,7 +281,7 @@ with gr.Blocks() as demo:
         )
     start_btn = gr.Button("Start Interview", scale=2, min_width=200)
     gr.Markdown("## Evaluating your performance along the way ...")
-    evaluation_textbox = gr.Textbox(label="Performance Evaluation",max_lines=20)
+    evaluation_textbox = gr.Textbox(label="Performance Evaluation",lines=20)
     
     start_btn.click(
         fn=next_question,
